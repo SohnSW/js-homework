@@ -35,3 +35,37 @@ function pwReg(text) {
   const re = /^(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[!@#$%^*+=-]).{6,16}$/;
   return re.test(String(text).toLowerCase());
 }
+
+const form = document.querySelector(".login-form");
+const inputId = document.querySelector("#userEmail");
+const inputPwd = document.querySelector("#userPassword");
+
+function isValidEmail(node, text) {
+  if (emailReg(text)) node.classList.remove("is--invalid");
+  else node.classList.add("is--invalid");
+}
+
+function isValidPwd(node, text) {
+  if (pwReg(text)) node.classList.remove("is--invalid");
+  else node.classList.add("is--invalid");
+}
+
+function handleInput(event, type) {
+  const value = event.target.value;
+  if (type == "email") {
+    isValidEmail(inputId, value);
+  } else if (type == "password") {
+    isValidPwd(inputPwd, value);
+  }
+}
+
+inputId.addEventListener("input", (event) => handleInput(event, "email"));
+inputPwd.addEventListener("input", (event) => handleInput(event, "password"));
+
+form.addEventListener("submit", (event) => {
+  event.preventDefault();
+
+  if (inputId.value == user.id && inputPwd.value == user.pw)
+    window.location.href = "welcome.html";
+  else alert("입력한 비밀번호가 올바르지 않습니다.");
+});
